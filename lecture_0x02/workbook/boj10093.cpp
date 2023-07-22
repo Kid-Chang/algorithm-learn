@@ -4,7 +4,7 @@
 
 using namespace std;
 
-// 대표값2
+// 숫자
 
 // 조건
 // 
