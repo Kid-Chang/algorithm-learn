@@ -15,6 +15,7 @@
 
 3. [online GDB](https://www.onlinegdb.com/)
 
+4. [바킹독 알고리즘 문제집 - 백준](https://www.acmicpc.net/workbook/by/BaaaaaaaaaaarkingDog)
 
 
 ## 스켈레톤 코드
@@ -60,4 +61,4 @@ int main()
 
 **0x08** 23/08/01~23/08/07 (7d)
 
-**0x09** 23/08/08~ ( d)
+**0x09** 23/08/08~23/08/16 (9d) / workbook 기본문제, 응용문제, 응용문제 ✔ 제외
