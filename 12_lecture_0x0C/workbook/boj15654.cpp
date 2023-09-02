@@ -35,8 +35,6 @@ void tracking(int cur){
             
         }    
     }
-    
-    
 }
 
 int main()
