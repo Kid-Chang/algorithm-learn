@@ -28,42 +28,37 @@ int number_of_cases(int camera_type){
     return 1;
 }
 
-int fill_board(int x, int y, int dir){
-        if(dir == 0)
-            for(int i=x; i >= 0; i--) {
-                if(board[i][y]=='6') break;
-                if(board[i][y]=='0') board[i][y] = '#';
-                
-            }
-        if(dir == 1)
-            for(int i=y; i >= 0; i--) {
-                if(board[x][i]=='6') break;
-                if(board[x][i]=='0') board[x][i] = '#'; 
-            }
-        if(dir == 2)
-            for(int i=x; i <N; i++) {
-                if(board[i][y]=='6') break;
-                if(board[i][y]=='0') board[i][y] = '#';
-            }
-        if(dir == 3)
-            for(int i=x; i <M; i++) {
-                if(board[x][i]=='6') break;
-                if(board[x][i]=='0') board[x][i] = '#';
-            }
+int dx[4] = {1, 0, -1, 0};
+int dy[4] = {0, -1, 0, 1};
+
+void fill_board(int x, int y, int dir){
+    dir %= 4; //가능한 감시방향 right, up, left, down (0 ~ 3)
+
+    while (true) {
+        int nx = x + dx[dir];
+        int ny = y + dy[dir];
+        x = nx;
+        y = ny;
+        if (nx < 0 || ny < 0 || nx > N || ny > M)return;
+        if (board[nx][ny] == '6') return;
+        if (board[nx][ny] != '0') continue;
+        board[nx][ny] = '#';
+    }
 };
 
-int empty_board(int x, int y, int dir){
-        // 12시부터 시계 방향
-        if(dir == 0)
-            for(int i=x; i >= 0; i--) if(board[i][y]=='#') board[i][y] = '0';
-        if(dir == 1)
-            for(int i=y; i >= 0; i--) if(board[x][i]=='#') board[x][i] = '0';
-        if(dir == 2)
-            for(int i=x; i <N; i++) if(board[i][y]=='#') board[i][y] = '0';
-        if(dir == 3)
-            for(int i=x; i <M; i++) if(board[x][i]=='#') board[x][i] = '0';
-
+void empty_board(int x, int y, int dir){
+    while (true) {
+        int nx = x + dx[dir];
+        int ny = y + dy[dir];
+        x = nx;
+        y = ny;
+        if (nx < 0 || ny < 0 || nx >= N || ny >= M)return;
+        if (board[nx][ny] == '6') return;
+        if (board[nx][ny] != '#') continue;
+        board[nx][ny] = '0';
+    }
 };
+
 void print_board(){
         for(int i=0;i<N;i++){
             for(int j=0;j<M;j++){
@@ -75,6 +70,7 @@ void print_board(){
 
 void tracking(int camera_count){
     if(camera_count  == total_camera){
+        // print_board();
         int this_min=0;
         for(int i=0;i<N;i++){
             for(int j=0;j<M;j++){
@@ -92,6 +88,13 @@ void tracking(int camera_count){
         // 비교 후 더 작은 값이면 min에 저장
     //    cout << "마지막 카메라에 도달\n";
         return;
+    }
+    
+    int backup[8][8];
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < M; j++) {
+            backup[i][j] = board[i][j];
+        }
     }
     
     int x,y,type;
@@ -133,34 +136,17 @@ void tracking(int camera_count){
         }
 
         
-        print_board();
-        cout << "\n";
+        //print_board();
+        // cout << "\n";
 
         // 재귀
         tracking(camera_count+1);
         
         // 빼기
-        if(type == 1){
-            empty_board(x,y,dir);
-        }
-        else if(type ==2){
-            empty_board(x,y,dir);
-            empty_board(x,y,dir+2);
-        }
-        else if(type ==3){
-            empty_board(x,y,dir);
-            empty_board(x,y,dir+1);
-        }
-        else if(type ==4){
-            empty_board(x,y,dir);
-            empty_board(x,y,dir+1);
-            empty_board(x,y,dir+2);
-        }
-        else if(type ==5){
-            empty_board(x,y,dir);
-            empty_board(x,y,dir+1);
-            empty_board(x,y,dir+2);
-            empty_board(x,y,dir+3);
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                board[i][j] = backup[i][j];
+            }
         }
     }
     
@@ -194,14 +180,7 @@ int main()
     
     // 백트래킹으로 모든 경우의 수 탐색?
     tracking(0);
-    
-    cout << "\n";
-    for(int i = 0; i <= N; i++){
-        for(int j=0; j <= M; j++){
-            cout << answer_board[i][j] << " ";
-        }
-        cout << "\n";
-    }
+   
     
     cout << min_value;
 
