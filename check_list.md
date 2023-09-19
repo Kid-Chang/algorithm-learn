@@ -11,3 +11,5 @@
     merge_sort(0,n,1); 이런식으로 정렬하는게 아님. 이러면 순서가 깨진다.
 
 - pair를 정렬할 때, sort() STL을 사용하면 .first -> .second 순으로 정렬하게 된다. 이 트릭을 이용하면 입력값을 .second 먼저 받게해서, 정렬 순위를 다르게 만들 수 도 있다.
+
+- vector에서 중복을 제거하기위해 `arr.erase(unique(arr.begin(), arr.end()), arr.end());` 와 같은 형태의 코드를 이용하려면, vector의 길이가 정의되있어야한다. `vector<string> arr(n);` 이런꼴로.
