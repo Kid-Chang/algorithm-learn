@@ -27,3 +27,5 @@ bool compare(const pair<int, int> &a, const pair<int, int> &b) {
 }
 ```
 와 같은 꼴로 작성하면 정상작동 한다.
+
+- 만약 조건문이 a<b 일때 카운트 한다 등의 경우이면, 정렬을 먼저 한 후, a>b 인 경우에는 break 하도록 하면 시간초과를 줄일 수 있다. boj7795 참고.
